@@ -3,7 +3,7 @@ This document outlines the database design for Boogie Neko.
 
 ## Entity Relationship Diagram
 
-```
+```mermaid
 erDiagram
     %% USER MANAGEMENT
     USER ||--o{ ORDER : places
