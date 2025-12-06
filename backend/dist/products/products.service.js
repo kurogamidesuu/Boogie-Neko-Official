@@ -52,12 +52,34 @@ let ProductsService = class ProductsService {
         });
         if (!product)
             throw new common_1.NotFoundException(`No product with ID #${id} found`);
+        return product;
     }
-    update(id, updateProductDto) {
-        return `This action updates a #${id} product`;
+    async update(id, updateProductDto) {
+        const product = await this.findOne(id);
+        if (!product)
+            throw new common_1.NotFoundException(`No product with ID #${id} found`);
+        const updatedProduct = await this.prisma.product.update({
+            where: {
+                id,
+            },
+            data: updateProductDto,
+        });
+        return updatedProduct;
     }
-    remove(id) {
-        return `This action removes a #${id} product`;
+    async remove(id) {
+        const product = await this.prisma.product.findUnique({
+            where: {
+                id,
+            },
+        });
+        if (!product)
+            throw new common_1.NotFoundException(`No product with ID #${id} found`);
+        const deletedProduct = await this.prisma.product.delete({
+            where: {
+                id,
+            },
+        });
+        return deletedProduct;
     }
     generateSlug(title) {
         return title

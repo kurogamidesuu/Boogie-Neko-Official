@@ -74,7 +74,7 @@ let UsersService = class UsersService {
     async findAll() {
         const users = await this.prisma.user.findMany();
         if (!users || users.length === 0)
-            throw new common_1.ConflictException('No users in the database.');
+            throw new common_1.NotFoundException('No users in the database.');
         return users;
     }
     async findOne(id) {
@@ -84,14 +84,39 @@ let UsersService = class UsersService {
             },
         });
         if (!user)
-            throw new common_1.ConflictException('User not found.');
+            throw new common_1.NotFoundException('User not found.');
         return user;
     }
-    update(id, updateUserDto) {
-        return `This action updates a #${id} user`;
+    async update(id, updateUserDto) {
+        const user = await this.prisma.user.findUnique({
+            where: {
+                id,
+            },
+        });
+        if (!user)
+            throw new common_1.NotFoundException('User not found.');
+        const updatedUser = await this.prisma.user.update({
+            where: {
+                id,
+            },
+            data: updateUserDto,
+        });
+        return updatedUser;
     }
-    remove(id) {
-        return `This action removes a #${id} user`;
+    async remove(id) {
+        const user = await this.prisma.user.findUnique({
+            where: {
+                id,
+            },
+        });
+        if (!user)
+            throw new common_1.NotFoundException('User not found.');
+        const deletedUser = await this.prisma.user.delete({
+            where: {
+                id,
+            },
+        });
+        return deletedUser;
     }
 };
 exports.UsersService = UsersService;

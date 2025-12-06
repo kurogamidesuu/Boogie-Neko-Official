@@ -48,15 +48,45 @@ export class ProductsService {
       },
     });
 
-    if (!product) throw new NotFoundException(`No product with ID #${id} found`);
+    if (!product)
+      throw new NotFoundException(`No product with ID #${id} found`);
+
+    return product;
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  async update(id: number, updateProductDto: UpdateProductDto) {
+    const product = await this.findOne(id);
+
+    if (!product)
+      throw new NotFoundException(`No product with ID #${id} found`);
+
+    const updatedProduct = await this.prisma.product.update({
+      where: {
+        id,
+      },
+      data: updateProductDto,
+    });
+
+    return updatedProduct;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  async remove(id: number) {
+    const product = await this.prisma.product.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!product)
+      throw new NotFoundException(`No product with ID #${id} found`);
+
+    const deletedProduct = await this.prisma.product.delete({
+      where: {
+        id,
+      },
+    });
+
+    return deletedProduct;
   }
 
   private generateSlug(title: string): string {

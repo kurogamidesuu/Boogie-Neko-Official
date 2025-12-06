@@ -1,4 +1,8 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from '../prisma/prisma.service';
@@ -38,7 +42,7 @@ export class UsersService {
     const users = await this.prisma.user.findMany();
 
     if (!users || users.length === 0)
-      throw new ConflictException('No users in the database.');
+      throw new NotFoundException('No users in the database.');
 
     return users;
   }
@@ -50,16 +54,45 @@ export class UsersService {
       },
     });
 
-    if (!user) throw new ConflictException('User not found.');
+    if (!user) throw new NotFoundException('User not found.');
 
     return user;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!user) throw new NotFoundException('User not found.');
+
+    const updatedUser = await this.prisma.user.update({
+      where: {
+        id,
+      },
+      data: updateUserDto,
+    });
+
+    return updatedUser;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: number) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!user) throw new NotFoundException('User not found.');
+
+    const deletedUser = await this.prisma.user.delete({
+      where: {
+        id,
+      },
+    });
+
+    return deletedUser;
   }
 }

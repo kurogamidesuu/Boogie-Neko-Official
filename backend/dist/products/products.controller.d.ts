@@ -5,16 +5,16 @@ export declare class ProductsController {
     private readonly productsService;
     constructor(productsService: ProductsService);
     create(createProductDto: CreateProductDto): Promise<{
+        id: number;
+        createdAt: Date;
+        updatedAt: Date;
         title: string;
-        slug: string;
         description: string;
         price: import("@prisma/client/runtime/library").Decimal;
         stock: number;
-        isActive: boolean;
-        createdAt: Date;
-        updatedAt: Date;
-        id: number;
         categoryId: number;
+        slug: string;
+        isActive: boolean;
     }>;
     findAll(): Promise<({
         category: {
@@ -22,18 +22,51 @@ export declare class ProductsController {
             name: string;
         };
     } & {
+        id: number;
+        createdAt: Date;
+        updatedAt: Date;
         title: string;
-        slug: string;
         description: string;
         price: import("@prisma/client/runtime/library").Decimal;
         stock: number;
+        categoryId: number;
+        slug: string;
         isActive: boolean;
+    })[]>;
+    findOne(id: number): Promise<{
+        id: number;
         createdAt: Date;
         updatedAt: Date;
-        id: number;
+        title: string;
+        description: string;
+        price: import("@prisma/client/runtime/library").Decimal;
+        stock: number;
         categoryId: number;
-    })[]>;
-    findOne(id: string): Promise<void>;
-    update(id: string, updateProductDto: UpdateProductDto): string;
-    remove(id: string): string;
+        slug: string;
+        isActive: boolean;
+    }>;
+    update(id: number, updateProductDto: UpdateProductDto): Promise<{
+        id: number;
+        createdAt: Date;
+        updatedAt: Date;
+        title: string;
+        description: string;
+        price: import("@prisma/client/runtime/library").Decimal;
+        stock: number;
+        categoryId: number;
+        slug: string;
+        isActive: boolean;
+    }>;
+    remove(id: number): Promise<{
+        id: number;
+        createdAt: Date;
+        updatedAt: Date;
+        title: string;
+        description: string;
+        price: import("@prisma/client/runtime/library").Decimal;
+        stock: number;
+        categoryId: number;
+        slug: string;
+        isActive: boolean;
+    }>;
 }
