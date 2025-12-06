@@ -34,6 +34,16 @@ export declare class UsersService {
         createdAt: Date;
         updatedAt: Date;
     }>;
+    findOneByEmail(email: string): Promise<{
+        email: string;
+        password: string;
+        firstName: string;
+        lastName: string;
+        role: import("@prisma/client").$Enums.Role;
+        id: number;
+        createdAt: Date;
+        updatedAt: Date;
+    } | null>;
     update(id: number, updateUserDto: UpdateUserDto): Promise<{
         email: string;
         password: string;

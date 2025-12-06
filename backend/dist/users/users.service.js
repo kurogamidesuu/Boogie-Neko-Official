@@ -87,6 +87,13 @@ let UsersService = class UsersService {
             throw new common_1.NotFoundException('User not found.');
         return user;
     }
+    async findOneByEmail(email) {
+        return this.prisma.user.findUnique({
+            where: {
+                email,
+            },
+        });
+    }
     async update(id, updateUserDto) {
         const user = await this.prisma.user.findUnique({
             where: {
