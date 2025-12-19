@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateProductDto = void 0;
+const swagger_1 = require("@nestjs/swagger");
 const class_transformer_1 = require("class-transformer");
 const class_validator_1 = require("class-validator");
 class CreateProductDto {
@@ -21,28 +22,44 @@ class CreateProductDto {
 }
 exports.CreateProductDto = CreateProductDto;
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'Pearl Necklace',
+    }),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], CreateProductDto.prototype, "title", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'A beautiful handmade pearl necklace.',
+    }),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], CreateProductDto.prototype, "description", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: '49.50',
+    }),
     (0, class_validator_1.IsNumber)({ maxDecimalPlaces: 2 }),
     (0, class_validator_1.IsPositive)(),
     (0, class_transformer_1.Type)(() => Number),
     __metadata("design:type", Number)
 ], CreateProductDto.prototype, "price", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: '10',
+        minimum: 0,
+    }),
     (0, class_validator_1.IsInt)(),
     (0, class_validator_1.Min)(0),
     (0, class_transformer_1.Type)(() => Number),
     __metadata("design:type", Number)
 ], CreateProductDto.prototype, "stock", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 2,
+    }),
     (0, class_validator_1.IsInt)(),
     (0, class_validator_1.IsPositive)(),
     (0, class_transformer_1.Type)(() => Number),

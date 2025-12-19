@@ -6,15 +6,15 @@ export declare class ProductsController {
     constructor(productsService: ProductsService);
     create(createProductDto: CreateProductDto): Promise<{
         title: string;
-        slug: string;
         description: string;
         price: import("@prisma/client/runtime/library").Decimal;
         stock: number;
+        categoryId: number;
+        id: number;
+        slug: string;
         isActive: boolean;
         createdAt: Date;
         updatedAt: Date;
-        id: number;
-        categoryId: number;
     }>;
     findAll(): Promise<({
         category: {
@@ -23,50 +23,50 @@ export declare class ProductsController {
         };
     } & {
         title: string;
-        slug: string;
         description: string;
         price: import("@prisma/client/runtime/library").Decimal;
         stock: number;
+        categoryId: number;
+        id: number;
+        slug: string;
         isActive: boolean;
         createdAt: Date;
         updatedAt: Date;
-        id: number;
-        categoryId: number;
     })[]>;
     findOne(id: number): Promise<{
         title: string;
-        slug: string;
         description: string;
         price: import("@prisma/client/runtime/library").Decimal;
         stock: number;
+        categoryId: number;
+        id: number;
+        slug: string;
         isActive: boolean;
         createdAt: Date;
         updatedAt: Date;
-        id: number;
-        categoryId: number;
     }>;
     update(id: number, updateProductDto: UpdateProductDto): Promise<{
         title: string;
-        slug: string;
         description: string;
         price: import("@prisma/client/runtime/library").Decimal;
         stock: number;
+        categoryId: number;
+        id: number;
+        slug: string;
         isActive: boolean;
         createdAt: Date;
         updatedAt: Date;
-        id: number;
-        categoryId: number;
     }>;
     remove(id: number): Promise<{
         title: string;
-        slug: string;
         description: string;
         price: import("@prisma/client/runtime/library").Decimal;
         stock: number;
+        categoryId: number;
+        id: number;
+        slug: string;
         isActive: boolean;
         createdAt: Date;
         updatedAt: Date;
-        id: number;
-        categoryId: number;
     }>;
 }

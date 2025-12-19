@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateUserDto = void 0;
+const swagger_1 = require("@nestjs/swagger");
 const client_1 = require("@prisma/client");
 const class_validator_1 = require("class-validator");
 class CreateUserDto {
@@ -21,25 +22,44 @@ class CreateUserDto {
 }
 exports.CreateUserDto = CreateUserDto;
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'user@boogieneko.com',
+        description: 'The email of the user',
+    }),
     (0, class_validator_1.IsEmail)(),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "email", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'StrongPassword123',
+        minLength: 6,
+    }),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.MinLength)(6, { message: 'The password must be at least 6 characters long' }),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "password", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'Teru',
+    }),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "firstName", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'Neko',
+    }),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "lastName", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        enum: client_1.Role,
+        required: false,
+        default: client_1.Role.USER,
+    }),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsEnum)(client_1.Role),
     __metadata("design:type", String)
