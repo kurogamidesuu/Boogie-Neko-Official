@@ -56,18 +56,26 @@ let AuthService = class AuthService {
     }
     async validateUser(email, pass) {
         const user = await this.usersService.findOneByEmail(email);
-        if (user && (await bcrypt.compare(pass, user.password))) {
-            const { password, ...result } = user;
-            return result;
-        }
-        return null;
+        if (!user)
+            return null;
+        const isValidPass = await bcrypt.compare(pass, user.password);
+        if (!isValidPass)
+            return null;
+        return {
+            id: user.id,
+            email: user.email,
+            role: user.role,
+        };
     }
     async signIn(email, pass) {
         const user = await this.validateUser(email, pass);
-        if (!user) {
+        if (!user)
             throw new common_1.UnauthorizedException('Invalid Credentials');
-        }
-        const payload = { sub: user.id, email: user.email, role: user.role };
+        const payload = {
+            sub: user.id,
+            email: user.email,
+            role: user.role,
+        };
         return {
             access_token: await this.jwtService.signAsync(payload),
         };
