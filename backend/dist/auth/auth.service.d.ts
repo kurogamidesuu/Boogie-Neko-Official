@@ -1,11 +1,6 @@
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
-import { Role } from '@prisma/client';
-interface AuthUser {
-    id: number;
-    email: string;
-    role: Role;
-}
+import { AuthUser } from './interfaces/auth-user.interface';
 export declare class AuthService {
     private readonly usersService;
     private readonly jwtService;
@@ -15,4 +10,3 @@ export declare class AuthService {
         access_token: string;
     }>;
 }
-export {};

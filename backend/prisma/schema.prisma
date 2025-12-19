@@ -114,6 +114,7 @@ model Cart {
   userId    Int        @unique
   user      User       @relation(fields: [userId], references: [id])
   items     CartItem[]
+  createdAt DateTime  @default(now())
   updatedAt DateTime   @updatedAt
 
   @@map("carts")

@@ -1,10 +1,5 @@
-import { Role } from '@prisma/client';
 import { Strategy } from 'passport-jwt';
-interface JwtPayload {
-    sub: number;
-    email: string;
-    role: Role;
-}
+import { JwtPayload } from './interfaces/jwt-payload.interface';
 declare const JwtStrategy_base: new (...args: [opt: import("passport-jwt").StrategyOptionsWithRequest] | [opt: import("passport-jwt").StrategyOptionsWithoutRequest]) => Strategy & {
     validate(...args: any[]): unknown;
 };
