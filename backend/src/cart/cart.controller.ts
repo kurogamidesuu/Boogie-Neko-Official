@@ -20,7 +20,7 @@ export class CartController {
 
   @Post()
   addToCart(@Request() req: AuthRequest, @Body() addToCartDto: AddToCartDto) {
-    const userId = req?.user?.userId;
+    const userId = req.user.userId;
     return this.cartService.addToCart(userId, addToCartDto);
   }
 

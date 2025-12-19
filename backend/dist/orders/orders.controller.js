@@ -12,46 +12,44 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CartController = void 0;
+exports.OrdersController = void 0;
 const common_1 = require("@nestjs/common");
-const cart_service_1 = require("./cart.service");
+const orders_service_1 = require("./orders.service");
 const swagger_1 = require("@nestjs/swagger");
 const passport_1 = require("@nestjs/passport");
-const create_cart_dto_1 = require("./dto/create-cart.dto");
-let CartController = class CartController {
-    cartService;
-    constructor(cartService) {
-        this.cartService = cartService;
+const create_order_dto_1 = require("./dto/create-order.dto");
+let OrdersController = class OrdersController {
+    ordersService;
+    constructor(ordersService) {
+        this.ordersService = ordersService;
     }
-    addToCart(req, addToCartDto) {
-        const userId = req.user.userId;
-        return this.cartService.addToCart(userId, addToCartDto);
+    checkout(req, createOrderDto) {
+        return this.ordersService.checkout(req.user.userId, createOrderDto);
     }
-    getCart(req) {
-        const userId = req.user.userId;
-        return this.cartService.getCart(userId);
+    findMyOrders(req) {
+        return this.ordersService.findMyOrders(req.user.userId);
     }
 };
-exports.CartController = CartController;
+exports.OrdersController = OrdersController;
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Request)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, create_cart_dto_1.AddToCartDto]),
+    __metadata("design:paramtypes", [Object, create_order_dto_1.CreateOrderDto]),
     __metadata("design:returntype", void 0)
-], CartController.prototype, "addToCart", null);
+], OrdersController.prototype, "checkout", null);
 __decorate([
     (0, common_1.Get)(),
     __param(0, (0, common_1.Request)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
-], CartController.prototype, "getCart", null);
-exports.CartController = CartController = __decorate([
+], OrdersController.prototype, "findMyOrders", null);
+exports.OrdersController = OrdersController = __decorate([
     (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
-    (0, common_1.Controller)('cart'),
-    __metadata("design:paramtypes", [cart_service_1.CartService])
-], CartController);
-//# sourceMappingURL=cart.controller.js.map
+    (0, common_1.Controller)('orders'),
+    __metadata("design:paramtypes", [orders_service_1.OrdersService])
+], OrdersController);
+//# sourceMappingURL=orders.controller.js.map
