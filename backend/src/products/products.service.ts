@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { PrismaService } from '../prisma/prisma.service';
+import { ProductQueryDto } from './dto/product-query.dto';
 
 @Injectable()
 export class ProductsService {
@@ -33,12 +34,38 @@ export class ProductsService {
     });
   }
 
-  async findAll() {
-    return await this.prisma.product.findMany({
-      include: {
-        category: true,
+  async findAll(query: ProductQueryDto) {
+    const { search, page, limit, sort } = query;
+
+    const skip = (page - 1) * limit;
+
+    const where: any = {};
+    if (search) {
+      where.title = {
+        contains: search,
+        mode: 'insensitive',
+      };
+    }
+
+    const [products, total] = await Promise.all([
+      this.prisma.product.findMany({
+        where,
+        take: limit,
+        skip: skip,
+        orderBy: sort ? { price: sort } : { id: 'desc' },
+        include: { category: true },
+      }),
+      this.prisma.product.count({ where }),
+    ]);
+
+    return {
+      data: products,
+      meta: {
+        total,
+        page,
+        lastPage: Math.ceil(total / limit),
       },
-    });
+    };
   }
 
   async findOne(id: number) {
@@ -93,6 +120,7 @@ export class ProductsService {
     return title
       .toLowerCase()
       .replace(/ /g, '-')
-      .replace(/[^\w-]/, '');
+      .replace(/[^\w-]/, '')
+      .concat(String(Math.random() * 1000));
   }
 }

@@ -4,44 +4,44 @@ export declare class OrdersService {
     private readonly prisma;
     constructor(prisma: PrismaService);
     checkout(userId: number, createOrderDto: CreateOrderDto): Promise<{
+        id: number;
+        createdAt: Date;
+        updatedAt: Date;
+        userId: number;
+        shippingAddress: string;
         orderDate: Date;
         status: import("@prisma/client").$Enums.OrderStatus;
         totalAmount: import("@prisma/client/runtime/library").Decimal;
-        shippingAddress: string;
-        createdAt: Date;
-        updatedAt: Date;
-        id: number;
-        userId: number;
     }>;
     findMyOrders(userId: number): Promise<({
         orderItems: ({
             product: {
+                description: string;
+                title: string;
+                id: number;
                 createdAt: Date;
                 updatedAt: Date;
-                id: number;
-                title: string;
-                slug: string;
-                description: string;
                 price: import("@prisma/client/runtime/library").Decimal;
                 stock: number;
-                isActive: boolean;
                 categoryId: number;
+                slug: string;
+                isActive: boolean;
             };
         } & {
             id: number;
-            quantity: number;
             productId: number;
+            quantity: number;
             priceAtPurchase: import("@prisma/client/runtime/library").Decimal;
             orderId: number;
         })[];
     } & {
+        id: number;
+        createdAt: Date;
+        updatedAt: Date;
+        userId: number;
+        shippingAddress: string;
         orderDate: Date;
         status: import("@prisma/client").$Enums.OrderStatus;
         totalAmount: import("@prisma/client/runtime/library").Decimal;
-        shippingAddress: string;
-        createdAt: Date;
-        updatedAt: Date;
-        id: number;
-        userId: number;
     })[]>;
 }
