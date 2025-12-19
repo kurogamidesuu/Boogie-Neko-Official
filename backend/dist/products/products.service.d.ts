@@ -2,14 +2,15 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { ProductQueryDto } from './dto/product-query.dto';
+import { Prisma } from '@prisma/client';
 export declare class ProductsService {
     private readonly prisma;
     constructor(prisma: PrismaService);
     create(createProductDto: CreateProductDto): Promise<{
-        description: string;
         title: string;
         slug: string;
-        price: import("@prisma/client/runtime/library").Decimal;
+        description: string;
+        price: Prisma.Decimal;
         stock: number;
         isActive: boolean;
         createdAt: Date;
@@ -24,10 +25,10 @@ export declare class ProductsService {
                 name: string;
             };
         } & {
-            description: string;
             title: string;
             slug: string;
-            price: import("@prisma/client/runtime/library").Decimal;
+            description: string;
+            price: Prisma.Decimal;
             stock: number;
             isActive: boolean;
             createdAt: Date;
@@ -42,10 +43,10 @@ export declare class ProductsService {
         };
     }>;
     findOne(id: number): Promise<{
-        description: string;
         title: string;
         slug: string;
-        price: import("@prisma/client/runtime/library").Decimal;
+        description: string;
+        price: Prisma.Decimal;
         stock: number;
         isActive: boolean;
         createdAt: Date;
@@ -54,10 +55,10 @@ export declare class ProductsService {
         categoryId: number;
     }>;
     update(id: number, updateProductDto: UpdateProductDto): Promise<{
-        description: string;
         title: string;
         slug: string;
-        price: import("@prisma/client/runtime/library").Decimal;
+        description: string;
+        price: Prisma.Decimal;
         stock: number;
         isActive: boolean;
         createdAt: Date;
@@ -66,10 +67,10 @@ export declare class ProductsService {
         categoryId: number;
     }>;
     remove(id: number): Promise<{
-        description: string;
         title: string;
         slug: string;
-        price: import("@prisma/client/runtime/library").Decimal;
+        description: string;
+        price: Prisma.Decimal;
         stock: number;
         isActive: boolean;
         createdAt: Date;

@@ -6,9 +6,9 @@ export declare class ProductsController {
     private readonly productsService;
     constructor(productsService: ProductsService);
     create(createProductDto: CreateProductDto): Promise<{
-        description: string;
         title: string;
         slug: string;
+        description: string;
         price: import("@prisma/client/runtime/library").Decimal;
         stock: number;
         isActive: boolean;
@@ -24,9 +24,9 @@ export declare class ProductsController {
                 name: string;
             };
         } & {
-            description: string;
             title: string;
             slug: string;
+            description: string;
             price: import("@prisma/client/runtime/library").Decimal;
             stock: number;
             isActive: boolean;
@@ -42,9 +42,9 @@ export declare class ProductsController {
         };
     }>;
     findOne(id: number): Promise<{
-        description: string;
         title: string;
         slug: string;
+        description: string;
         price: import("@prisma/client/runtime/library").Decimal;
         stock: number;
         isActive: boolean;
@@ -54,9 +54,9 @@ export declare class ProductsController {
         categoryId: number;
     }>;
     update(id: number, updateProductDto: UpdateProductDto): Promise<{
-        description: string;
         title: string;
         slug: string;
+        description: string;
         price: import("@prisma/client/runtime/library").Decimal;
         stock: number;
         isActive: boolean;
@@ -66,9 +66,9 @@ export declare class ProductsController {
         categoryId: number;
     }>;
     remove(id: number): Promise<{
-        description: string;
         title: string;
         slug: string;
+        description: string;
         price: import("@prisma/client/runtime/library").Decimal;
         stock: number;
         isActive: boolean;
