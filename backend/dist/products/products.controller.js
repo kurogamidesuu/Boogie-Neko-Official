@@ -17,6 +17,10 @@ const common_1 = require("@nestjs/common");
 const products_service_1 = require("./products.service");
 const create_product_dto_1 = require("./dto/create-product.dto");
 const update_product_dto_1 = require("./dto/update-product.dto");
+const passport_1 = require("@nestjs/passport");
+const roles_guard_1 = require("../auth/roles.guard");
+const roles_decorator_1 = require("../auth/roles.decorator");
+const client_1 = require("@prisma/client");
 let ProductsController = class ProductsController {
     productsService;
     constructor(productsService) {
@@ -40,6 +44,8 @@ let ProductsController = class ProductsController {
 };
 exports.ProductsController = ProductsController;
 __decorate([
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt'), roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)(client_1.Role.ADMIN),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)(common_1.ValidationPipe)),
     __metadata("design:type", Function),
