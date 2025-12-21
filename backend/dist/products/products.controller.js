@@ -22,6 +22,9 @@ const roles_guard_1 = require("../auth/roles.guard");
 const roles_decorator_1 = require("../auth/roles.decorator");
 const client_1 = require("@prisma/client");
 const product_query_dto_1 = require("./dto/product-query.dto");
+const platform_express_1 = require("@nestjs/platform-express");
+const multer_1 = require("multer");
+const product_image_validator_1 = require("./validators/product-image.validator");
 let ProductsController = class ProductsController {
     productsService;
     constructor(productsService) {
@@ -41,6 +44,9 @@ let ProductsController = class ProductsController {
     }
     remove(id) {
         return this.productsService.remove(id);
+    }
+    uploadImage(id, file) {
+        return this.productsService.saveImage(id, file);
     }
 };
 exports.ProductsController = ProductsController;
@@ -82,6 +88,29 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], ProductsController.prototype, "remove", null);
+__decorate([
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt'), roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)(client_1.Role.ADMIN),
+    (0, common_1.Post)('/image/:id'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', {
+        storage: (0, multer_1.diskStorage)({
+            destination: './uploads',
+            filename: (req, file, cb) => {
+                cb(null, `${Date.now()}-${Math.round(Math.random() * 1e9)}-${file.originalname}`);
+            },
+        }),
+    })),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __param(1, (0, common_1.UploadedFile)(new common_1.ParseFilePipe({
+        validators: [
+            new common_1.MaxFileSizeValidator({ maxSize: 1 * 1024 * 1024 }),
+            new product_image_validator_1.ProductImageTypeValidator(),
+        ],
+    }))),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:returntype", void 0)
+], ProductsController.prototype, "uploadImage", null);
 exports.ProductsController = ProductsController = __decorate([
     (0, common_1.Controller)('products'),
     __metadata("design:paramtypes", [products_service_1.ProductsService])

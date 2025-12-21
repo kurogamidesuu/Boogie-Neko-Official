@@ -103,12 +103,25 @@ let ProductsService = class ProductsService {
         });
         return deletedProduct;
     }
+    async saveImage(productId, file) {
+        const product = await this.findOne(productId);
+        if (!product)
+            throw new common_1.NotFoundException(`Product with id #${productId} not found`);
+        const imageUrl = `/uploads/${file.filename}`;
+        return this.prisma.productImage.create({
+            data: {
+                url: imageUrl,
+                altText: product.title,
+                productId,
+            },
+        });
+    }
     generateSlug(title) {
         return title
             .toLowerCase()
             .replace(/ /g, '-')
             .replace(/[^\w-]/, '')
-            .concat(String(Math.random() * 1000));
+            .concat(String(Math.round(Math.random() * 1e9)));
     }
 };
 exports.ProductsService = ProductsService;

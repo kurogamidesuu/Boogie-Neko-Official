@@ -77,4 +77,11 @@ export declare class ProductsController {
         id: number;
         categoryId: number;
     }>;
+    uploadImage(id: number, file: Express.Multer.File): Promise<{
+        id: number;
+        url: string;
+        altText: string | null;
+        isPrimary: boolean;
+        productId: number;
+    }>;
 }

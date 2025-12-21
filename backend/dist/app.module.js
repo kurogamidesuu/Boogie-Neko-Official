@@ -16,6 +16,8 @@ const products_module_1 = require("./products/products.module");
 const auth_module_1 = require("./auth/auth.module");
 const cart_module_1 = require("./cart/cart.module");
 const orders_module_1 = require("./orders/orders.module");
+const serve_static_1 = require("@nestjs/serve-static");
+const path_1 = require("path");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -28,6 +30,9 @@ exports.AppModule = AppModule = __decorate([
             auth_module_1.AuthModule,
             cart_module_1.CartModule,
             orders_module_1.OrdersModule,
+            serve_static_1.ServeStaticModule.forRoot({
+                rootPath: (0, path_1.join)(__dirname, '..', 'uploads'),
+            }),
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

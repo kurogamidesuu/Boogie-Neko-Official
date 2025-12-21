@@ -117,11 +117,27 @@ export class ProductsService {
     return deletedProduct;
   }
 
+  async saveImage(productId: number, file: Express.Multer.File) {
+    const product = await this.findOne(productId);
+    if (!product)
+      throw new NotFoundException(`Product with id #${productId} not found`);
+
+    const imageUrl = `/uploads/${file.filename}`;
+
+    return this.prisma.productImage.create({
+      data: {
+        url: imageUrl,
+        altText: product.title,
+        productId,
+      },
+    });
+  }
+
   private generateSlug(title: string): string {
     return title
       .toLowerCase()
       .replace(/ /g, '-')
       .replace(/[^\w-]/, '')
-      .concat(String(Math.random() * 1000));
+      .concat(String(Math.round(Math.random() * 1e9)));
   }
 }
