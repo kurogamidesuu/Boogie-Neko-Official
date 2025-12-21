@@ -61,11 +61,14 @@ The backend service is the source of truth for the platform. It must be initiali
 
 ---
 
-## API Documentation
+## Documentations
 
+### API
 The Core API adheres to the OpenAPI 3.0 specification.
-* **Static Definition:** [`/docs/swagger-spec.json`](./docs/swagger-spec.json) - Suitable for import into Postman, Insomnia, or code generators.
-* **Live Documentation:** Auto-generated interactive documentation is available at the `/api` endpoint when running in development mode.
+* [API Documentation](./docs/swagger-spec.json) - Suitable for import into Postman, Insomnia, or code generators.
+
+### Database Design
+* [Databse Design](./docs/database.md) - The core outline of the design of the database for Boogie Neko.
 
 ## Deployment & DevOps
 
