@@ -32,6 +32,7 @@ exports.AppModule = AppModule = __decorate([
             orders_module_1.OrdersModule,
             serve_static_1.ServeStaticModule.forRoot({
                 rootPath: (0, path_1.join)(__dirname, '..', 'uploads'),
+                serveRoot: '/uploads',
             }),
         ],
         controllers: [app_controller_1.AppController],
