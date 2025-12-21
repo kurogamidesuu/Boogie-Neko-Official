@@ -7,15 +7,15 @@ export declare class ProductsService {
     private readonly prisma;
     constructor(prisma: PrismaService);
     create(createProductDto: CreateProductDto): Promise<{
-        createdAt: Date;
-        updatedAt: Date;
-        id: number;
         title: string;
         slug: string;
         description: string;
         price: Prisma.Decimal;
         stock: number;
         isActive: boolean;
+        createdAt: Date;
+        updatedAt: Date;
+        id: number;
         categoryId: number;
     }>;
     findAll(query: ProductQueryDto): Promise<{
@@ -24,16 +24,23 @@ export declare class ProductsService {
                 id: number;
                 name: string;
             };
+            images: {
+                id: number;
+                url: string;
+                altText: string | null;
+                isPrimary: boolean;
+                productId: number;
+            }[];
         } & {
-            createdAt: Date;
-            updatedAt: Date;
-            id: number;
             title: string;
             slug: string;
             description: string;
             price: Prisma.Decimal;
             stock: number;
             isActive: boolean;
+            createdAt: Date;
+            updatedAt: Date;
+            id: number;
             categoryId: number;
         })[];
         meta: {
@@ -43,39 +50,39 @@ export declare class ProductsService {
         };
     }>;
     findOne(id: number): Promise<{
-        createdAt: Date;
-        updatedAt: Date;
-        id: number;
         title: string;
         slug: string;
         description: string;
         price: Prisma.Decimal;
         stock: number;
         isActive: boolean;
+        createdAt: Date;
+        updatedAt: Date;
+        id: number;
         categoryId: number;
     }>;
     update(id: number, updateProductDto: UpdateProductDto): Promise<{
-        createdAt: Date;
-        updatedAt: Date;
-        id: number;
         title: string;
         slug: string;
         description: string;
         price: Prisma.Decimal;
         stock: number;
         isActive: boolean;
+        createdAt: Date;
+        updatedAt: Date;
+        id: number;
         categoryId: number;
     }>;
     remove(id: number): Promise<{
-        createdAt: Date;
-        updatedAt: Date;
-        id: number;
         title: string;
         slug: string;
         description: string;
         price: Prisma.Decimal;
         stock: number;
         isActive: boolean;
+        createdAt: Date;
+        updatedAt: Date;
+        id: number;
         categoryId: number;
     }>;
     saveImage(productId: number, file: Express.Multer.File): Promise<{

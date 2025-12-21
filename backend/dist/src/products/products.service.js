@@ -53,7 +53,10 @@ let ProductsService = class ProductsService {
                 take: limit,
                 skip: skip,
                 orderBy: sort ? { price: sort } : { id: 'desc' },
-                include: { category: true },
+                include: {
+                    category: true,
+                    images: true,
+                },
             }),
             this.prisma.product.count({ where }),
         ]);
