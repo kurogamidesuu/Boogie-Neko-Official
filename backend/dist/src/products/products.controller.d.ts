@@ -6,15 +6,15 @@ export declare class ProductsController {
     private readonly productsService;
     constructor(productsService: ProductsService);
     create(createProductDto: CreateProductDto): Promise<{
+        createdAt: Date;
+        updatedAt: Date;
+        id: number;
         title: string;
         slug: string;
         description: string;
         price: import("@prisma/client/runtime/library").Decimal;
         stock: number;
         isActive: boolean;
-        createdAt: Date;
-        updatedAt: Date;
-        id: number;
         categoryId: number;
     }>;
     findAll(query: ProductQueryDto): Promise<{
@@ -31,15 +31,15 @@ export declare class ProductsController {
                 productId: number;
             }[];
         } & {
+            createdAt: Date;
+            updatedAt: Date;
+            id: number;
             title: string;
             slug: string;
             description: string;
             price: import("@prisma/client/runtime/library").Decimal;
             stock: number;
             isActive: boolean;
-            createdAt: Date;
-            updatedAt: Date;
-            id: number;
             categoryId: number;
         })[];
         meta: {
@@ -49,39 +49,39 @@ export declare class ProductsController {
         };
     }>;
     findOne(id: number): Promise<{
+        createdAt: Date;
+        updatedAt: Date;
+        id: number;
         title: string;
         slug: string;
         description: string;
         price: import("@prisma/client/runtime/library").Decimal;
         stock: number;
         isActive: boolean;
-        createdAt: Date;
-        updatedAt: Date;
-        id: number;
         categoryId: number;
     }>;
     update(id: number, updateProductDto: UpdateProductDto): Promise<{
+        createdAt: Date;
+        updatedAt: Date;
+        id: number;
         title: string;
         slug: string;
         description: string;
         price: import("@prisma/client/runtime/library").Decimal;
         stock: number;
         isActive: boolean;
-        createdAt: Date;
-        updatedAt: Date;
-        id: number;
         categoryId: number;
     }>;
     remove(id: number): Promise<{
+        createdAt: Date;
+        updatedAt: Date;
+        id: number;
         title: string;
         slug: string;
         description: string;
         price: import("@prisma/client/runtime/library").Decimal;
         stock: number;
         isActive: boolean;
-        createdAt: Date;
-        updatedAt: Date;
-        id: number;
         categoryId: number;
     }>;
     uploadImage(id: number, file: Express.Multer.File): Promise<{

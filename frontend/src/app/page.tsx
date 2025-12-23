@@ -1,23 +1,24 @@
-import { Button } from "@/components/ui/button";
+import ProductCard from "@/components/ProductCard";
 import { fetchProducts } from "@/lib/api";
 
 export default async function Home() {
   const products = await fetchProducts();
 
   return (
-    <main className="container mx-auto py-10">
-      <h1 className="text-3xl font-bold mb-8">Latest Drops 📦</h1>
+    <main className="container mx-auto py-10 px-3">
       
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <hr />
+      
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-5 p-5 ">
         {products.map((product) => (
-          <div key={`${product.title}-${product.description}-${product.price}`} className="border p-4 rounded-lg shadow-sm">
-            <h2 className="font-bold text-xl">{product.title}</h2>
-            <p className="text-gray-500">${product.price}</p>
-            
-            <div className="mt-4">
-              <Button>Add to Cart</Button>
-            </div>
-          </div>
+          <ProductCard
+            key={product.id}
+            image={product.images.url || '/default-product-image.png'}
+            altText={product.images.altText || product.title}
+            title={product.title}
+            description={product.description}
+            price={product.price}
+          />
         ))}
       </div>
     </main>

@@ -189,6 +189,10 @@ export interface components {
             role: "USER" | "ADMIN";
         };
         CreateProductDto: {
+            /**
+             * @description The id of the product entity
+             */
+            id: number;
             /** @example Pearl Necklace */
             title: string;
             /** @example A beautiful handmade pearl necklace. */
@@ -199,6 +203,10 @@ export interface components {
             stock: number;
             /** @example 2 */
             categoryId: number;
+            images: {
+                url: string;
+                altText: string;
+            }
         };
         UpdateProductDto: {
             /** @example Pearl Necklace */
