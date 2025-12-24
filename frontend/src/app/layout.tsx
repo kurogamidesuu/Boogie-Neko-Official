@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     default: "Boogie Neko Store",
     template: "%s | Boogie Neko Store",
   },
-  description: "The purr-fect place for premium goods.",
+  description: "The purr-fect place for premium handmade accessories.",
   robots: {
     index: true,
   },
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   keywords: ['boogie', 'boogieneko', 'ecommerce', 'jewellery', 'accessories', 'hand-made', 'necklaces', 'chains', 'bracelets'],
   openGraph: {
     title: 'Boogie Neko',
-    description: 'The purr-fect place for premium goods.',
+    description: 'The purr-fect place for premium handmade accessories.',
     url: '',
     siteName: 'Boogie Neko',
     locale: 'en_US',
