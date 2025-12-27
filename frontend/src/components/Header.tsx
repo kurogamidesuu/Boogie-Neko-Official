@@ -1,12 +1,8 @@
 "use client";
 
-import { Heart, Search, ShoppingCartIcon, User } from "lucide-react";
-import dynamic from "next/dynamic";
+import { Heart, Search, User } from "lucide-react";
 import Link from "next/link";
-
-const CartCounter = dynamic(() => import("@/components/CartCounter"), {
-  ssr: false
-})
+import CartSheet from "./CartSheet";
 
 export default function Header() {
   return (
@@ -53,13 +49,7 @@ export default function Header() {
         <Link href='/profile' >
           <User className="w-5 h-5 md:w-6 md:h-6" />
         </Link>
-        <Link href='/favourites'>
-          <Heart className="w-5 h-5 md:w-6 md:h-6 fill-transparent hover:fill-red-600 hover:text-red-600 transition-[fill, color] duration-200 ease-in-out" />
-        </Link>
-        <Link href='/cart'>
-          <ShoppingCartIcon className={`w-5 h-5 md:w-6 md:h-6`} />
-          <CartCounter />
-        </Link>
+        <CartSheet />
       </div>
     </header>
   )
