@@ -1,5 +1,12 @@
+"use client";
+
 import { Heart, Search, ShoppingCartIcon, User } from "lucide-react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
+
+const CartCounter = dynamic(() => import("@/components/CartCounter"), {
+  ssr: false
+})
 
 export default function Header() {
   return (
@@ -9,7 +16,7 @@ export default function Header() {
             <h1 className="w-20 md:w-auto text-xl md:text-5xl font-bold font-logo">Boogie Neko</h1>
         </Link>
         <nav className="text-xs md:text-base">
-          <ul className="flex gap-2 md:gap-3
+          <ul className={`flex gap-2 md:gap-3
                   [&>li]:relative [&>li]:cursor-pointer
                   [&>li::after]:content-[''] [&>li::before]:content-['']
                   [&>li::after]:absolute [&>li::before]:absolute
@@ -22,7 +29,7 @@ export default function Header() {
                   [&>li:hover::after]:w-1/2 [&>li:hover::before]:w-1/2
                   [&>li::after]:transition-all
                   [&>li::before]:transition-all
-                  ">
+                  `}>
             <li>
               <Link href='/'>
                 Home
@@ -50,7 +57,8 @@ export default function Header() {
           <Heart className="w-5 h-5 md:w-6 md:h-6 fill-transparent hover:fill-red-600 hover:text-red-600 transition-[fill, color] duration-200 ease-in-out" />
         </Link>
         <Link href='/cart'>
-          <ShoppingCartIcon className="w-5 h-5 md:w-6 md:h-6" />
+          <ShoppingCartIcon className={`w-5 h-5 md:w-6 md:h-6`} />
+          <CartCounter />
         </Link>
       </div>
     </header>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Fredoka, Outfit, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
+import { Toaster } from "sonner";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -58,6 +59,7 @@ export default function RootLayout({
         <main className="flex-1">
           {children}
         </main>
+        <Toaster />
       </body>
     </html>
   );
