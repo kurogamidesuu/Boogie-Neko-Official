@@ -23,7 +23,8 @@ const CartSheetCard = ({
         <p className='text-[10px] md:text-xs text-muted-foreground'>{item.description}</p>
       </div>
       <div className='flex flex-col items-center gap-5'>
-        <p className='text-sm font-semibold text-foreground/70'>{formatCurrency(item.price)}</p>
+        {/* Remove the * 100 later */}
+        <p className='text-sm font-semibold text-foreground/70'>{formatCurrency(item.price * 100)}</p>
         <div className='flex gap-1 md:gap-2 items-center'>
           <Button variant='outline' className='h-5 w-6 rounded-e-none cursor-pointer text-muted-foreground font-bold' onClick={() => decreaseItem(item.id)}>
             <Minus />

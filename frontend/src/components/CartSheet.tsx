@@ -8,7 +8,7 @@ import CartSheetCard from "./CartSheetCard";
 import { Button } from "./ui/button";
 import { ScrollArea } from "./ui/scroll-area";
 import Link from "next/link";
-import { formatCurrency } from "@/lib/helper";
+import { calculateSubtotal, formatCurrency } from "@/lib/helper";
 
 const CartCounter = dynamic(() => import("@/components/CartCounter"), {
   ssr: false
@@ -16,12 +16,6 @@ const CartCounter = dynamic(() => import("@/components/CartCounter"), {
 
 export default function CartSheet() {
   const { items } = useCart();
-
-  const calculateSubtotal = () => {
-    const total = items.reduce((acc, item) => acc + ((item.price * 100) * item.quantity), 0);
-
-    return formatCurrency(total / 100);
-  }
 
   return (
     <Sheet>
@@ -59,13 +53,19 @@ export default function CartSheet() {
           <div className="font-body">
             <div className="flex justify-between px-3 mb-5">
               <span className="font-bold">Sub Total:</span>
-              <span className='font-semibold'>{calculateSubtotal()}</span>
+              <span className='font-semibold'>{formatCurrency(calculateSubtotal(items))}</span>
             </div>
-            <SheetClose asChild>
-              <Link href='/cart'>
-                <Button className="w-full cursor-pointer">Go to Cart</Button>
-              </Link>
-            </SheetClose>
+            {items.length > 0 ? (
+              <SheetClose asChild>
+                <Link href='/checkout'>
+                  <Button className="w-full cursor-pointer" >Go to Cart</Button>
+                </Link>
+              </SheetClose>
+            ) : (
+              <div className="cursor-not-allowed">
+                <Button className="w-full" disabled>Go to Cart</Button>
+              </div>
+            )}
           </div>
         </SheetFooter>
       </SheetContent>
