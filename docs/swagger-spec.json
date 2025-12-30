@@ -416,6 +416,52 @@
           "Orders"
         ]
       }
+    },
+    "/addresses": {
+      "post": {
+        "operationId": "AddressesController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAddressDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Addresses"
+        ]
+      },
+      "get": {
+        "operationId": "AddressesController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Addresses"
+        ]
+      }
     }
   },
   "info": {
@@ -602,14 +648,91 @@
       "CreateOrderDto": {
         "type": "object",
         "properties": {
-          "shippingAddress": {
-            "type": "string",
-            "example": "Nya Nya Apartment, Neko Land, Tokyo, Japan",
-            "description": "The address where the products are shipped to"
+          "shippingAddressId": {
+            "type": "number",
+            "description": "The Id of address where the products are shipped to"
           }
         },
         "required": [
-          "shippingAddress"
+          "shippingAddressId"
+        ]
+      },
+      "AddressType": {
+        "type": "string",
+        "enum": [
+          "HOME",
+          "WORK",
+          "OTHER"
+        ],
+        "description": "The type of address i.e Home, Work or Other"
+      },
+      "CreateAddressDto": {
+        "type": "object",
+        "properties": {
+          "fullName": {
+            "type": "string",
+            "example": "Kairi Kumar",
+            "description": "The full name of user",
+            "minLength": 2
+          },
+          "phone": {
+            "type": "string",
+            "description": "The 10-digit phone number of customer (without +91)",
+            "example": "9876543210",
+            "pattern": "^[6-9]\\d{9}$"
+          },
+          "pincode": {
+            "type": "string",
+            "description": "6-digit Indian Pincode",
+            "example": "110001",
+            "pattern": "^[1-9][0-9]{5}$"
+          },
+          "city": {
+            "type": "string",
+            "example": "New Delhi"
+          },
+          "state": {
+            "type": "string",
+            "example": "Delhi"
+          },
+          "houseNumber": {
+            "type": "string",
+            "description": "Flat, House no., Building, Apartment",
+            "example": "Flat 402, Sunshine Heights"
+          },
+          "area": {
+            "type": "string",
+            "description": "Area, Street, Sector, Village",
+            "example": "Sector 18, MG Road"
+          },
+          "landmark": {
+            "type": "string",
+            "description": "Nearby landmark to help delivery",
+            "example": "Near HDFC Bank ATM"
+          },
+          "type": {
+            "description": "The type of address i.e Home, Work or Other",
+            "example": "HOME",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AddressType"
+              }
+            ]
+          },
+          "isDefault": {
+            "type": "boolean",
+            "description": "Set this as the default address for checkout",
+            "default": false
+          }
+        },
+        "required": [
+          "fullName",
+          "phone",
+          "pincode",
+          "city",
+          "state",
+          "houseNumber",
+          "area"
         ]
       }
     }

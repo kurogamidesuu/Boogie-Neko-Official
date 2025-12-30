@@ -32,7 +32,7 @@ export class OrdersService {
         data: {
           userId,
           totalAmount: total,
-          shippingAddress: createOrderDto.shippingAddress,
+          shippingAddressId: createOrderDto.shippingAddressId,
           status: OrderStatus.PENDING_APPROVAL,
           orderItems: {
             create: cart.items.map((item) => ({
