@@ -3,8 +3,11 @@
 import { Search, User } from "lucide-react";
 import Link from "next/link";
 import CartSheet from "./CartSheet";
+import { useAuth } from "@/store/use-auth";
 
 export default function Header() {
+  const {user} = useAuth();
+
   return (
     <header className='flex flex-row items-center justify-between p-5 md:mx-5 font-[outfit]'>
       <div className="flex gap-3 md:gap-10 items-center">
@@ -47,7 +50,12 @@ export default function Header() {
       <div className="flex gap-2 md:gap-4">
         <Search className="w-5 h-5 md:w-6 md:h-6" />
         <Link href='/profile' >
-          <User className="w-5 h-5 md:w-6 md:h-6" />
+          <div className="flex gap-2 items-center ">
+            <User className="w-5 h-5 md:w-6 md:h-6 hover:scale-[1.1] transition scale duration-200" />
+            {user
+              ? <p className="text-sm hover:text-muted-foreground transition font duration-200">{user.name}</p>
+              : <></>}
+          </div>
         </Link>
         <CartSheet />
       </div>

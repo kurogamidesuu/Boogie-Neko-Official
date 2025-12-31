@@ -148,6 +148,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/addresses": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["AddressesController_findAll"];
+        put?: never;
+        post: operations["AddressesController_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -189,10 +205,6 @@ export interface components {
             role: "USER" | "ADMIN";
         };
         CreateProductDto: {
-            /**
-             * @description The id of the product entity
-             */
-            id: number;
             /** @example Pearl Necklace */
             title: string;
             /** @example A beautiful handmade pearl necklace. */
@@ -203,10 +215,6 @@ export interface components {
             stock: number;
             /** @example 2 */
             categoryId: number;
-            images: {
-                url: string;
-                altText: string;
-            }
         };
         UpdateProductDto: {
             /** @example Pearl Necklace */
@@ -236,11 +244,59 @@ export interface components {
             quantity: number;
         };
         CreateOrderDto: {
+            /** @description The Id of address where the products are shipped to */
+            shippingAddressId: number;
+        };
+        /**
+         * @description The type of address i.e Home, Work or Other
+         * @enum {string}
+         */
+        AddressType: "HOME" | "WORK" | "OTHER";
+        CreateAddressDto: {
             /**
-             * @description The address where the products are shipped to
-             * @example Nya Nya Apartment, Neko Land, Tokyo, Japan
+             * @description The full name of user
+             * @example Kairi Kumar
              */
-            shippingAddress: string;
+            fullName: string;
+            /**
+             * @description The 10-digit phone number of customer (without +91)
+             * @example 9876543210
+             */
+            phone: string;
+            /**
+             * @description 6-digit Indian Pincode
+             * @example 110001
+             */
+            pincode: string;
+            /** @example New Delhi */
+            city: string;
+            /** @example Delhi */
+            state: string;
+            /**
+             * @description Flat, House no., Building, Apartment
+             * @example Flat 402, Sunshine Heights
+             */
+            houseNumber: string;
+            /**
+             * @description Area, Street, Sector, Village
+             * @example Sector 18, MG Road
+             */
+            area: string;
+            /**
+             * @description Nearby landmark to help delivery
+             * @example Near HDFC Bank ATM
+             */
+            landmark?: string;
+            /**
+             * @description The type of address i.e Home, Work or Other
+             * @example HOME
+             */
+            type?: components["schemas"]["AddressType"];
+            /**
+             * @description Set this as the default address for checkout
+             * @default false
+             */
+            isDefault: boolean;
         };
     };
     responses: never;
@@ -580,6 +636,44 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": components["schemas"]["CreateOrderDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AddressesController_findAll: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AddressesController_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateAddressDto"];
             };
         };
         responses: {

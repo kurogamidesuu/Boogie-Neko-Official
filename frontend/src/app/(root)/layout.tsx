@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Fredoka, Outfit, Plus_Jakarta_Sans } from "next/font/google";
-import "./globals.css";
+import "@/app/globals.css";
 import Header from "@/components/Header";
 import { Toaster } from "sonner";
 
@@ -18,6 +18,7 @@ const fredoka = Fredoka({
   variable: "--font-fredoka",
   subsets: ["latin"],
 });
+
 export const metadata: Metadata = {
   title: {
     default: "Boogie Neko Store",

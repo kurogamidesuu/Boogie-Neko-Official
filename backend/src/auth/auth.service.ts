@@ -22,11 +22,18 @@ export class AuthService {
     return {
       id: user.id,
       email: user.email,
+      name: user.firstName + ' ' + user.lastName,
       role: user.role,
     };
   }
 
-  async signIn(email: string, pass: string): Promise<{ access_token: string }> {
+  async signIn(
+    email: string,
+    pass: string,
+  ): Promise<{
+    access_token: string;
+    user: AuthUser;
+  }> {
     const user = await this.validateUser(email, pass);
 
     if (!user) throw new UnauthorizedException('Invalid Credentials');
@@ -39,6 +46,7 @@ export class AuthService {
 
     return {
       access_token: await this.jwtService.signAsync(payload),
+      user,
     };
   }
 }
