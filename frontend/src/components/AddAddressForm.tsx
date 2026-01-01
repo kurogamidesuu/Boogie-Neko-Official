@@ -6,16 +6,26 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Field, FieldError, FieldGroup, FieldLabel } from "./ui/field";
 import { Checkbox } from "./ui/checkbox";
+import { createAddress } from "@/lib/api";
+import { toast } from "sonner";
 
 interface AddAddressFormProps {
-  onSuccess: () => void
+  onSuccess: () => void;
+  setSelected: (id: number) => void;
 };
 
 
-export function AddAddressForm({ onSuccess } : AddAddressFormProps) {
-  const handleSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log(data);
-    onSuccess();
+export function AddAddressForm({ onSuccess, setSelected } : AddAddressFormProps) {
+  const handleSubmit = async (data: z.infer<typeof formSchema>) => {
+    try {
+      const newAddress = await createAddress(data);
+      if (newAddress.isDefault) setSelected(newAddress.id!);
+      toast.success('Address saved successfully!');
+      onSuccess();
+    } catch(err: unknown) {
+      if (err instanceof Error)
+        toast.error(err.message);
+    }
   }
 
   type AddressInput = z.input<typeof formSchema>

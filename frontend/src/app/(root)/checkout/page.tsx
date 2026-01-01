@@ -5,11 +5,12 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Address, fetchAddresses } from "@/lib/api";
 import { calculateSubtotal, formatCurrency } from "@/lib/helper";
 import { useCart } from "@/store/use-cart";
 import { CheckCircle, MapPin } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Checkout() {
   const { items } = useCart();
@@ -17,12 +18,21 @@ export default function Checkout() {
   const [shippingCharges, setShippingCharges] = useState(1000);
   const [taxes, setTaxes] = useState(0);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [savedAddresses, setSavedAddresses] = useState<Address[]>([]);
 
-  const savedAddresses = [
-    { id: 1, name: "Home", street: "123 Boogie Ave", city: "Tokyo", state: 'Tokyo Pradesh', phone: "999999999", pin: '171711' },
-    { id: 2, name: "Work", street: "456 Neko St", city: "Kyoto", state: 'Kyoto Pradesh', phone: "9898989812", pin: '177005' },
-    { id: 3, name: "Work", street: "NIT Mirpur", city: "Mirpur", state: 'Himachal Pradesh', phone: "1234554321", pin: '177005' },
-  ];
+  const handleAddressSaved = async () => {
+    setIsDialogOpen(false);
+    const addr = await fetchAddresses();
+    setSavedAddresses(addr);
+  }
+  
+  useEffect(() => {
+    const fetchAddr = async () => {
+      const addr = await fetchAddresses();
+      setSavedAddresses(addr);
+    }
+    fetchAddr();
+  }, []);
 
   return (
     <ProtectedRoute>
@@ -40,14 +50,17 @@ export default function Checkout() {
                     <div
                       key={index}
                       className={`border cursor-pointer ${address.id === selectedId ? "border-primary bg-primary/5" : "border-gray-200"} text-sm p-3 rounded-sm relative`}
-                      onClick={() => setSelectedId(address.id)}
+                      onClick={() => setSelectedId(address.id!)}
                     >
                       {address.id === selectedId ? (<CheckCircle className="h-4 w-4 absolute right-5 text-green-600" />) : <></>}
-                      <h1 className="font-semibold">{address.name}</h1>
-                      <p>{address.street}, {address.city}</p>
-                      <p>{address.state}</p>
+                      <h1 className="font-semibold">{address.fullName} ({address.type})</h1>
+                      <p>{address.houseNumber}, {address.area}</p>
+                      <p>{address.city}, {address.state}</p>
+                      {address.landmark
+                        ? <p>{address.landmark}</p>
+                        : <></>}
                       <p>{address.phone}</p>
-                      <p>{address.pin}</p>
+                      <p>{address.pincode}</p>
                     </div>
                   ))}
                   <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -67,7 +80,7 @@ export default function Checkout() {
                         <MapPin size={16} />
                         Use my current location
                       </button>
-                      <AddAddressForm onSuccess={() => setIsDialogOpen(false)} />
+                      <AddAddressForm onSuccess={handleAddressSaved} setSelected={setSelectedId} />
                     </DialogContent>
                   </Dialog>
                 </div>

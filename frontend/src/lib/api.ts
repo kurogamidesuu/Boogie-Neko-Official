@@ -1,4 +1,4 @@
-import { User } from "@/store/use-auth";
+import { useAuth, User } from "@/store/use-auth";
 import { components } from "@/types/api";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -21,6 +21,9 @@ export type AuthUser = {
   name: string;
   role: "USER" | "ADMIN";
 }
+export type Address = components['schemas']['CreateAddressDto'] & {
+  id?: number;
+};
 
 export async function loginUser(credentials: loginCredentials): Promise<{access_token: string, user: AuthUser}> {
   const res = await fetch(`${API_URL}/auth/login`, {
@@ -67,4 +70,39 @@ export async function fetchProducts(): Promise<Product[]> {
   const data = await res.json();
 
   return data.data;
+}
+
+const getAuthHeaders = () => {
+  const token = useAuth.getState().token;
+  return {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`,
+  };
+};
+
+export async function fetchAddresses(): Promise<Address[]> {
+  const res = await fetch(`${API_URL}/addresses`, {
+    method: 'GET',
+    headers: getAuthHeaders(),
+    cache: 'no-store',
+  });
+
+  if (!res.ok) throw new Error('Failed to fetch addresses');
+
+  return res.json();
+}
+
+export async function createAddress(data: Address): Promise<Address> {
+  const res = await fetch(`${API_URL}/addresses`, {
+    method: 'POST',
+    headers: getAuthHeaders(),
+    body: JSON.stringify(data),
+  });
+
+  if (!res.ok) {
+    const errData = await res.json();
+    throw new Error(errData.message || 'Failed to save address');
+  }
+
+  return res.json();
 }
