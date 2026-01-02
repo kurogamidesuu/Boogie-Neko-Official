@@ -445,6 +445,23 @@
           "Addresses"
         ]
       },
+      "put": {
+        "operationId": "AddressesController_updateDefault",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Addresses"
+        ]
+      },
       "get": {
         "operationId": "AddressesController_findAll",
         "parameters": [],

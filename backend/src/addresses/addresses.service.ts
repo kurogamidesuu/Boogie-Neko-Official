@@ -6,7 +6,16 @@ import { PrismaService } from '../prisma/prisma.service';
 export class AddressesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  create(userId: number, createAddressDto: CreateAddressDto) {
+  async create(userId: number, createAddressDto: CreateAddressDto) {
+    if (createAddressDto.isDefault) {
+      await this.prisma.address.updateMany({
+        where: { userId },
+        data: {
+          isDefault: false,
+        },
+      });
+    }
+
     return this.prisma.address.create({
       data: {
         fullName: createAddressDto.fullName,
@@ -20,6 +29,22 @@ export class AddressesService {
         type: createAddressDto.type,
         isDefault: createAddressDto.isDefault,
         userId: userId,
+      },
+    });
+  }
+
+  async changeDefault(userId: number, id: number) {
+    await this.prisma.address.updateMany({
+      where: { userId },
+      data: {
+        isDefault: false,
+      },
+    });
+
+    return await this.prisma.address.update({
+      where: { id },
+      data: {
+        isDefault: true,
       },
     });
   }

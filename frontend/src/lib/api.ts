@@ -106,3 +106,18 @@ export async function createAddress(data: Address): Promise<Address> {
 
   return res.json();
 }
+
+export async function changeDefault(id: number): Promise<Address> {
+  const res = await fetch(`${API_URL}/addresses`, {
+    method: 'PUT',
+    headers: getAuthHeaders(),
+    body: JSON.stringify({ id }),
+  });
+
+  if (!res.ok) {
+    const errData = await res.json();
+    throw new Error(errData.message || 'Something went wrong!');
+  }
+
+  return res.json();
+}

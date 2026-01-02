@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Post,
+  Put,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -24,6 +25,17 @@ export class AddressesController {
     @Body() createAddressDto: CreateAddressDto,
   ) {
     return this.addressesService.create(req.user.userId, createAddressDto);
+  }
+
+  @Put()
+  updateDefault(
+    @Request() req: AuthRequest,
+    @Body()
+    body: {
+      id: number;
+    },
+  ) {
+    return this.addressesService.changeDefault(req.user.userId, body.id);
   }
 
   @Get()
