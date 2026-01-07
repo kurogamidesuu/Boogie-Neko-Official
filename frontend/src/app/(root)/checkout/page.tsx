@@ -36,10 +36,19 @@ export default function Checkout() {
 
       if (data && data.length > 0 && selectedId == null) {
         const defaultAddr = data.find(a => a.isDefault);
-        setSelectedId(defaultAddr?.id || data[0].id);
+        if (defaultAddr) {
+          setSelectedId(defaultAddr.id!)
+        } else {
+          setSelectedId(data[0]?.id || null)
+        }
       }
-    } catch(error) {
-      console.log(error);
+    } catch(error: unknown) {
+      if (error instanceof Error) 
+        if (error.message.includes("Session expired")){
+          toast.error("Session Expired. Please login again");
+        } else {
+          toast.error("Failed to load addresses")
+        }
     } finally {
       setIsLoading(false);
     }
@@ -57,6 +66,8 @@ export default function Checkout() {
       setSelectAddressMenu(false);
       toast.success('Default address updated');
     } catch(e) {
+      if (e instanceof Error)
+        console.error(e.message)
       toast.error('Failed to update default');
     }
   }

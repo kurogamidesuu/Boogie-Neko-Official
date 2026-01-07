@@ -3,7 +3,7 @@ import ProductCard from "@/components/ProductCard";
 import { fetchProducts } from "@/lib/api";
 
 export default async function Home() {
-  const products = await fetchProducts();
+  const products = (await fetchProducts());
 
   return (
     <div className="flex flex-col gap-10 pb-20">

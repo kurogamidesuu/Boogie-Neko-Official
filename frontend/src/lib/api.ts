@@ -25,6 +25,20 @@ export type Address = components['schemas']['CreateAddressDto'] & {
   id?: number;
 };
 
+async function handleResponse(res: Response) {
+  if (res.status === 401) {
+    useAuth.getState().logout();
+    throw new Error("Session expired!");
+  }
+
+  if (!res.ok) {
+    const errData = await res.json()
+    throw new Error(errData.message || 'Something went wrong!')
+  }
+
+  return res.json();
+}
+
 export async function loginUser(credentials: loginCredentials): Promise<{access_token: string, user: AuthUser}> {
   const res = await fetch(`${API_URL}/auth/login`, {
     method: 'POST',
@@ -87,9 +101,7 @@ export async function fetchAddresses(): Promise<Address[]> {
     cache: 'no-store',
   });
 
-  if (!res.ok) throw new Error('Failed to fetch addresses');
-
-  return res.json();
+  return handleResponse(res);
 }
 
 export async function createAddress(data: Address): Promise<Address> {
@@ -99,12 +111,7 @@ export async function createAddress(data: Address): Promise<Address> {
     body: JSON.stringify(data),
   });
 
-  if (!res.ok) {
-    const errData = await res.json();
-    throw new Error(errData.message || 'Failed to save address');
-  }
-
-  return res.json();
+  return handleResponse(res);
 }
 
 export async function changeDefault(id: number): Promise<Address> {
@@ -114,10 +121,5 @@ export async function changeDefault(id: number): Promise<Address> {
     body: JSON.stringify({ id }),
   });
 
-  if (!res.ok) {
-    const errData = await res.json();
-    throw new Error(errData.message || 'Something went wrong!');
-  }
-
-  return res.json();
+  return handleResponse(res);
 }
