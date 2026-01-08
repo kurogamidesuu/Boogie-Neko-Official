@@ -1,4 +1,5 @@
 import { useAuth, User } from "@/store/use-auth";
+import { CartItem } from "@/store/use-cart";
 import { components } from "@/types/api";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -24,6 +25,19 @@ export type AuthUser = {
 export type Address = components['schemas']['CreateAddressDto'] & {
   id?: number;
 };
+export type AddToCartDto = components['schemas']['AddToCartDto'];
+export type RemoveFromCartDto = components['schemas']['RemoveFromCartDto'];
+export type Cart = {
+  id: number;
+  userId: number;
+  items: ({
+    id: number;
+    quantity: number;
+    cartId: number;
+    productId: number;
+    product: Product;
+  })[];
+}
 
 async function handleResponse(res: Response) {
   if (res.status === 401) {
@@ -119,6 +133,35 @@ export async function changeDefault(id: number): Promise<Address> {
     method: 'PUT',
     headers: getAuthHeaders(),
     body: JSON.stringify({ id }),
+  });
+
+  return handleResponse(res);
+}
+
+export async function addToCart(addToCartDto: AddToCartDto) {
+  const res = await fetch(`${API_URL}/cart`, {
+    method: 'POST',
+    headers: getAuthHeaders(),
+    body: JSON.stringify(addToCartDto),
+  });
+
+  return handleResponse(res);
+}
+
+export async function removeFromCart(removeFromCartDto: RemoveFromCartDto): Promise<CartItem[]> {
+  const res = await fetch(`${API_URL}/cart`, {
+    method: 'PUT',
+    headers: getAuthHeaders(),
+    body: JSON.stringify(removeFromCartDto),
+  });
+
+  return handleResponse(res);
+}
+
+export async function getCart(): Promise<Cart> {
+  const res = await fetch(`${API_URL}/cart`, {
+    method: 'GET',
+    headers: getAuthHeaders(),
   });
 
   return handleResponse(res);

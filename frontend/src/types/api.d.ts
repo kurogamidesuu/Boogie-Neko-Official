@@ -124,8 +124,40 @@ export interface paths {
             cookie?: never;
         };
         get: operations["CartController_getCart"];
-        put?: never;
+        put: operations["CartController_removeFromCart"];
         post: operations["CartController_addToCart"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orders/checkout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["OrdersController_checkout"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orders/pay": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["OrdersController_confirmPayment"];
         delete?: never;
         options?: never;
         head?: never;
@@ -141,7 +173,7 @@ export interface paths {
         };
         get: operations["OrdersController_findMyOrders"];
         put?: never;
-        post: operations["OrdersController_checkout"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -156,7 +188,7 @@ export interface paths {
             cookie?: never;
         };
         get: operations["AddressesController_findAll"];
-        put?: never;
+        put: operations["AddressesController_updateDefault"];
         post: operations["AddressesController_create"];
         delete?: never;
         options?: never;
@@ -243,9 +275,24 @@ export interface components {
             /** @example 3 */
             quantity: number;
         };
+        RemoveFromCartDto: {
+            /** @example 3 */
+            productId: number;
+            /** @example 3 */
+            quantity: number;
+        };
         CreateOrderDto: {
             /** @description The Id of address where the products are shipped to */
             shippingAddressId: number;
+        };
+        CreatePaymentDto: {
+            /** @description The id of order that this payment belongs to */
+            orderId: number;
+            /**
+             * @description Transaction ID of the payment for the order
+             * @example 112233445566
+             */
+            transactionId: string;
         };
         /**
          * @description The type of address i.e Home, Work or Other
@@ -588,6 +635,27 @@ export interface operations {
             };
         };
     };
+    CartController_removeFromCart: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RemoveFromCartDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     CartController_addToCart: {
         parameters: {
             query?: never;
@@ -602,23 +670,6 @@ export interface operations {
         };
         responses: {
             201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    OrdersController_findMyOrders: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -647,7 +698,62 @@ export interface operations {
             };
         };
     };
+    OrdersController_confirmPayment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreatePaymentDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OrdersController_findMyOrders: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     AddressesController_findAll: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AddressesController_updateDefault: {
         parameters: {
             query?: never;
             header?: never;

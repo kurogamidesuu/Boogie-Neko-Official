@@ -16,7 +16,7 @@ const CartSheetCard = ({
   return (
     <div className='flex gap-2 items-center bg-primary/10 rounded-[7px] font-body py-2 md:py-3 px-1 my-1'>
       <div className='h-15 w-15 md:h-20 md:w-20 relative aspect-square'>
-        <Image src={item.images.url || '/default-product-image.png'} fill alt={item.images.altText || 'product image'} />
+        <Image src={item.images?.url || '/default-product-image.png'} fill alt={item.images?.altText || 'product image'} />
       </div>
       <div>
         <p className='font-semibold'>{item.title}</p>

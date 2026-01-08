@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { loginUser } from "@/lib/api";
 import { loginSchema } from "@/lib/validators/login-schema";
 import { useAuth } from "@/store/use-auth";
+import { useCart } from "@/store/use-cart";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -16,6 +17,7 @@ import * as z from 'zod';
 export default function LoginPage() {
   const router = useRouter();
   const { login } = useAuth();
+  const { syncWithServer } = useCart();
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -29,6 +31,8 @@ export default function LoginPage() {
     try {
       const res = await loginUser(data);
       login(res.access_token, res.user);
+
+      await syncWithServer();
 
       toast('Welcome back');
       router.push('/');
