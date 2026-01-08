@@ -193,12 +193,6 @@ export default function Checkout() {
                         </DialogContent>
                       </Dialog>
                     </div>
-                    {/* <Button
-                      onClick={() => handleChangeDefault(selectedId)}
-                      className="mt-5"
-                    >
-                      Set Default Address
-                    </Button> */}
                   </div>
                 </Activity>
               </div>

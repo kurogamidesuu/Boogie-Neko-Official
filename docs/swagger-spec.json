@@ -353,6 +353,33 @@
           "Cart"
         ]
       },
+      "put": {
+        "operationId": "CartController_removeFromCart",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveFromCartDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Cart"
+        ]
+      },
       "get": {
         "operationId": "CartController_getCart",
         "parameters": [],
@@ -676,6 +703,24 @@
         ]
       },
       "AddToCartDto": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "number",
+            "example": 3
+          },
+          "quantity": {
+            "type": "number",
+            "example": 3,
+            "minimum": 1
+          }
+        },
+        "required": [
+          "productId",
+          "quantity"
+        ]
+      },
+      "RemoveFromCartDto": {
         "type": "object",
         "properties": {
           "productId": {
