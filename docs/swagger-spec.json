@@ -371,7 +371,7 @@
         ]
       }
     },
-    "/orders": {
+    "/orders/checkout": {
       "post": {
         "operationId": "OrdersController_checkout",
         "parameters": [],
@@ -398,7 +398,38 @@
         "tags": [
           "Orders"
         ]
-      },
+      }
+    },
+    "/orders/pay": {
+      "post": {
+        "operationId": "OrdersController_confirmPayment",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePaymentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Orders"
+        ]
+      }
+    },
+    "/orders": {
       "get": {
         "operationId": "OrdersController_findMyOrders",
         "parameters": [],
@@ -672,6 +703,24 @@
         },
         "required": [
           "shippingAddressId"
+        ]
+      },
+      "CreatePaymentDto": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "number",
+            "description": "The id of order that this payment belongs to"
+          },
+          "transactionId": {
+            "type": "string",
+            "description": "Transaction ID of the payment for the order",
+            "example": "112233445566"
+          }
+        },
+        "required": [
+          "orderId",
+          "transactionId"
         ]
       },
       "AddressType": {

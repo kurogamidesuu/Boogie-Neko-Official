@@ -10,6 +10,7 @@ import { OrdersModule } from './orders/orders.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { AddressesModule } from './addresses/addresses.module';
+import { MailerModule } from '@nestjs-modules/mailer';
 
 @Module({
   imports: [
@@ -24,6 +25,19 @@ import { AddressesModule } from './addresses/addresses.module';
       serveRoot: '/uploads',
     }),
     AddressesModule,
+    MailerModule.forRoot({
+      transport: {
+        host: 'smtp.gmail.com',
+        port: 465,
+        auth: {
+          user: process.env.GMAIL_ADDRESS,
+          pass: process.env.GMAIL_PASSWORD,
+        },
+      },
+      defaults: {
+        from: `BoogieNeko Store`,
+      },
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],

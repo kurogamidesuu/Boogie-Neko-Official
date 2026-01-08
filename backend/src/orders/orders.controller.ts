@@ -11,6 +11,7 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateOrderDto } from './dto/create-order.dto';
 import type { AuthRequest } from '../auth/interfaces/auth-request.interface';
+import { CreatePaymentDto } from './dto/create-payment.dto';
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'))
@@ -18,12 +19,20 @@ import type { AuthRequest } from '../auth/interfaces/auth-request.interface';
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
-  @Post()
+  @Post('/checkout')
   checkout(
     @Request() req: AuthRequest,
     @Body() createOrderDto: CreateOrderDto,
   ) {
     return this.ordersService.checkout(req.user.userId, createOrderDto);
+  }
+
+  @Post('/pay')
+  confirmPayment(
+    @Request() req: AuthRequest,
+    @Body() createPaymentDto: CreatePaymentDto,
+  ) {
+    return this.ordersService.confirmPayment(req.user.userId, createPaymentDto);
   }
 
   @Get()

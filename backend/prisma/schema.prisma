@@ -106,13 +106,14 @@ model Category {
 model Order {
   id                Int         @id @default(autoincrement())
   orderDate         DateTime    @default(now())
-  status            OrderStatus @default(PENDING_APPROVAL)
+  status            OrderStatus @default(AWAITING_PAYMENT)
   totalAmount       Decimal     @db.Decimal(10, 2)
   shippingAddressId Int
   shippingAddress   Address     @relation(fields: [shippingAddressId], references: [id])
   userId            Int
   user              User        @relation(fields: [userId], references: [id])
   orderItems        OrderItem[]
+  transactionId     String?
   createdAt         DateTime    @default(now())
   updatedAt         DateTime    @updatedAt
 
@@ -120,9 +121,9 @@ model Order {
 }
 
 enum OrderStatus {
-  PENDING_APPROVAL
   AWAITING_PAYMENT
-  PAID
+  PENDING_APPROVAL
+  PAYMENT_APPROVED
   SHIPPED
   COMPLETED
   CANCELLED
