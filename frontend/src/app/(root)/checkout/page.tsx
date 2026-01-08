@@ -1,26 +1,31 @@
 "use client";
 
 import { AddAddressForm } from "@/components/AddAddressForm";
+import PaymentDialog from "@/components/PaymentDialog";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Address, changeDefault, fetchAddresses } from "@/lib/api";
+import { Address, changeDefault, confirmPayment, fetchAddresses, placeOrder } from "@/lib/api";
 import { calculateSubtotal, formatCurrency } from "@/lib/helper";
 import { useCart } from "@/store/use-cart";
 import { CheckCircle, Loader2, MapPin } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Activity, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 export default function Checkout() {
-  const { items } = useCart();
+  const { items, clearCart } = useCart();
+  const router = useRouter();
 
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [savedAddresses, setSavedAddresses] = useState<Address[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectAddressMenu, setSelectAddressMenu] = useState(false);
+  const [isLoadingPayment, setIsLoadingPayment] = useState(false);
+  const [isPaymentDialogOpen, setIsPaymentDialogOpen] = useState(false);
 
   const shippingCharges = 1000;
   const taxes = 0;
@@ -69,6 +74,36 @@ export default function Checkout() {
       if (e instanceof Error)
         console.error(e.message)
       toast.error('Failed to update default');
+    }
+  }
+
+  const handlePlaceOrder = async (transactionId: string) => {
+    try {
+      if (selectedId) {
+        const res = await placeOrder({ shippingAddressId: selectedId });
+
+        const orderId = res.id;
+        
+        if (orderId) {
+          setIsLoadingPayment(true);
+          await confirmPayment({orderId, transactionId})
+          clearCart();
+          router.push('/');
+          
+          toast.success('Order created successfully');
+        }
+        
+      } else {
+        toast.error('No address selected');
+      }
+    } catch(e) {
+      if (e instanceof Error) {
+        console.error(e.message);
+      }
+      toast.error('Something went wrong');
+    } finally {
+      setIsPaymentDialogOpen(false);
+      setIsLoadingPayment(false);
     }
   }
   
@@ -208,7 +243,7 @@ export default function Checkout() {
                   {items.map((item, index) => (
                     <div key={index} className="w-[95%] h-20 flex items-center bg-primary/10 rounded-xs px-3 mx-auto">
                       <div className="h-full relative aspect-square">
-                        <Image src={item.images.url || '/default-product-image.png'} fill alt={item.images.altText || item.title} />
+                        <Image src={item.images?.url || '/default-product-image.png'} fill alt={item.images?.altText || item.title} />
                       </div>
                       <div className="mr-auto ml-5">
                         <h1 className="font-medium">{item.title}</h1>
@@ -230,7 +265,7 @@ export default function Checkout() {
                   <h1 className="text-xl font-bold my-5">Grand Total:</h1>
                   <h1 className="justify-self-end text-xl font-bold my-5">{formatCurrency(calculateSubtotal(items) + shippingCharges + taxes)}</h1>
               </div>
-              <Button className="w-3/4 mx-auto block cursor-pointer h-10 rounded-[8px]">Place Your Order</Button>
+              <PaymentDialog handlePlaceOrder={handlePlaceOrder} isLoadingPayment={isLoadingPayment} isPaymentDialogOpen={isPaymentDialogOpen} setIsPaymentDialogOpen={setIsPaymentDialogOpen} />
             </div>
           </div>
         </div>

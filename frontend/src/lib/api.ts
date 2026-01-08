@@ -38,6 +38,8 @@ export type Cart = {
     product: Product;
   })[];
 }
+export type CreateOrderDto = components['schemas']['CreateOrderDto'];
+export type CreatePaymentDto = components['schemas']['CreatePaymentDto'];
 
 async function handleResponse(res: Response) {
   if (res.status === 401) {
@@ -162,6 +164,26 @@ export async function getCart(): Promise<Cart> {
   const res = await fetch(`${API_URL}/cart`, {
     method: 'GET',
     headers: getAuthHeaders(),
+  });
+
+  return handleResponse(res);
+}
+
+export async function placeOrder(createOrderDto: CreateOrderDto) {
+  const res = await fetch(`${API_URL}/orders/checkout`, {
+    method: 'POST',
+    headers: getAuthHeaders(),
+    body: JSON.stringify(createOrderDto),
+  });
+
+  return handleResponse(res);
+}
+
+export async function confirmPayment(createPaymentDto: CreatePaymentDto) {
+  const res = await fetch(`${API_URL}/orders/pay`, {
+    method: 'POST',
+    headers: getAuthHeaders(),
+    body: JSON.stringify(createPaymentDto),
   });
 
   return handleResponse(res);
